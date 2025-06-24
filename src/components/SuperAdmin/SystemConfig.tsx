@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Settings, Save, RefreshCw, AlertCircle, CheckCircle, Server, Database, Mail, Shield } from 'lucide-react';
+import { Settings, Save, AlertCircle, Server, Mail, Shield } from 'lucide-react';
 import { Card } from '../Common/Card';
 import { Button } from '../Common/Button';
-import { useApi, useAsyncAction } from '../../hooks/useApi';
+import { useAsyncAction } from '../../hooks/useApi';
 import { systemService } from '../../services/system';
 
 export const SystemConfig: React.FC = () => {
   const [hasChanges, setHasChanges] = useState(false);
   const [config, setConfig] = useState({
-    platformName: 'VectorLab',
+    platformName: 'Flashbillr',
     platformVersion: '2.1.0',
     maintenanceMode: false,
     allowNewRegistrations: true,
@@ -24,10 +24,10 @@ export const SystemConfig: React.FC = () => {
       maxApiCallsPerHour: 5000
     },
     emailSettings: {
-      smtpHost: 'smtp.vectorlab.com',
+      smtpHost: 'smtp.flashbillr.com',
       smtpPort: 587,
-      fromEmail: 'noreply@vectorlab.com',
-      fromName: 'VectorLab Platform'
+      fromEmail: 'noreply@flashbillr.com',
+      fromName: 'Flashbillr Platform'
     },
     securitySettings: {
       sessionTimeout: 24,
@@ -44,11 +44,15 @@ export const SystemConfig: React.FC = () => {
     }
   );
 
-  const handleConfigChange = (section: string, key: string, value: any) => {
+  const handleConfigChange = <T extends keyof typeof config, K extends keyof (typeof config)[T]>(
+    section: T,
+    key: K,
+    value: (typeof config)[T][K]
+  ) => {
     setConfig(prev => ({
       ...prev,
       [section]: {
-        ...prev[section as keyof typeof prev],
+        ...(prev[section] as object),
         [key]: value
       }
     }));

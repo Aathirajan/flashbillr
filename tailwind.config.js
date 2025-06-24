@@ -1,8 +1,41 @@
 /** @type {import('tailwindcss').Config} */
+
+// Custom plugin to suppress grid warnings
+const suppressGridWarnings = ({ addBase }) => {
+  addBase({
+    '.grid': {
+      'grid-template-rows': 'repeat(1, minmax(0, 1fr))',
+    },
+  });
+};
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  corePlugins: {
+    // Disable core plugins to reduce CSS size
+    float: false,
+    clear: false,
+    skew: false,
+  },
+  plugins: [
+    suppressGridWarnings,
+  ],
   theme: {
     extend: {
+      // Grid template rows configuration
+      gridTemplateRows: {
+        // Default grid template
+        '1': 'repeat(1, minmax(0, 1fr))',
+        '2': 'repeat(2, minmax(0, 1fr))',
+        '3': 'repeat(3, minmax(0, 1fr))',
+        '4': 'repeat(4, minmax(0, 1fr))',
+        '5': 'repeat(5, minmax(0, 1fr))',
+        '6': 'repeat(6, minmax(0, 1fr))',
+        '7': 'repeat(7, minmax(0, 1fr))',
+        '8': 'repeat(8, minmax(0, 1fr))',
+        // Complex site-specific row configuration
+        'layout': '200px minmax(900px, 1fr) 100px',
+      },
       colors: {
         primary: {
           50: '#eff6ff',

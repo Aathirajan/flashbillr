@@ -86,7 +86,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
           </div>
           <div>
             <h1 className="text-xl font-bold bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
-              VectorLab
+              Flashbillr
             </h1>
             <p className="text-xs text-gray-400">
               {user?.role === 'superadmin' ? 'Super Admin' : 'Admin Panel'}

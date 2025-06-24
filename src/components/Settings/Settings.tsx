@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, User, Store, Bell, Shield, Palette, Globe, Save, Eye, EyeOff } from 'lucide-react';
+import { User, Store, Bell, Shield, Palette, Globe, Save, Eye, EyeOff } from 'lucide-react';
 import { Card } from '../Common/Card';
 import { Button } from '../Common/Button';
 import { useAuth } from '../../hooks/useAuth';
 import { useAsyncAction } from '../../hooks/useApi';
-import { storeService } from '../../services/stores';
 import { clsx } from 'clsx';
 
 export const Settings: React.FC = () => {
@@ -95,12 +94,12 @@ const ProfileSettings: React.FC<{ onChanges: (hasChanges: boolean) => void }> = 
     language: 'en',
   });
 
-  const { execute: updateProfile, loading } = useAsyncAction(
-    async (data: any) => {
-      // await userService.updateProfile(data);
-      onChanges(false);
-    }
-  );
+  useAsyncAction(
+        async () => {
+            // await userService.updateProfile(data);
+            onChanges(false);
+        }
+    );
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -313,8 +312,8 @@ const StoreSettings: React.FC<{ onChanges: (hasChanges: boolean) => void }> = ({
 // Platform Settings Component (Super Admin only)
 const PlatformSettings: React.FC<{ onChanges: (hasChanges: boolean) => void }> = ({ onChanges }) => {
   const [formData, setFormData] = useState({
-    platformName: 'VectorLab',
-    supportEmail: 'support@vectorlab.com',
+    platformName: 'Flashbillr',
+    supportEmail: 'support@flashbillr.com',
     maintenanceMode: false,
     allowRegistrations: true,
     defaultPlan: 'basic',

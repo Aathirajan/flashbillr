@@ -36,7 +36,7 @@ export const LoginForm: React.FC = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center mx-auto mb-4">
               <Package className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">VectorLab Admin</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Flashbillr Admin</h1>
             <p className="text-gray-600 mt-2">Sign in to your account</p>
           </div>
 
@@ -97,8 +97,8 @@ export const LoginForm: React.FC = () => {
           <div className="mt-6 text-center text-sm text-gray-600">
             <p>Demo credentials:</p>
             <div className="space-y-1 mt-2">
-              <p><strong>Admin:</strong> admin@vectorlab.in | password</p>
-              <p><strong>Super Admin:</strong> superadmin@vectorlab.in | password</p>
+              <p><strong>Admin:</strong> admin@flashbillr.com | password</p>
+              <p><strong>Super Admin:</strong> superadmin@flashbillr.com | password</p>
             </div>
           </div>
         </Card>

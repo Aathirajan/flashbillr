@@ -11,7 +11,7 @@ export const SuperAdminManagement: React.FC = () => {
   const [selectedAdmin, setSelectedAdmin] = useState<any>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const { execute: createSuperAdmin, loading: createLoading } = useAsyncAction(
+  useAsyncAction(
     async (data: any) => {
       await systemService.createSuperAdmin(data);
       // Refresh the list
@@ -23,7 +23,7 @@ export const SuperAdminManagement: React.FC = () => {
     {
       id: '1',
       name: 'John Doe',
-      email: 'john@vectorlab.in',
+      email: 'john@flashbillr.com',
       status: 'active',
       lastLogin: '2024-01-20T14:30:00Z',
       createdAt: '2024-01-01T00:00:00Z',
@@ -33,7 +33,7 @@ export const SuperAdminManagement: React.FC = () => {
     {
       id: '2',
       name: 'Jane Smith',
-      email: 'jane@vectorlab.in',
+      email: 'jane@flashbillr.com',
       status: 'active',
       lastLogin: '2024-01-19T16:45:00Z',
       createdAt: '2024-01-05T00:00:00Z',
@@ -43,7 +43,7 @@ export const SuperAdminManagement: React.FC = () => {
     {
       id: '3',
       name: 'Bob Wilson',
-      email: 'bob@vectorlab.in',
+      email: 'bob@flashbillr.com',
       status: 'inactive',
       lastLogin: '2024-01-13T12:00:00Z',
       createdAt: '2024-01-10T00:00:00Z',
@@ -57,16 +57,16 @@ export const SuperAdminManagement: React.FC = () => {
     setIsEditModalOpen(true);
   };
 
-  const handleDeleteAdmin = async (adminId: string) => {
-    if (window.confirm('Are you sure you want to delete this super admin? This action cannot be undone.')) {
-      try {
-        // await systemService.deleteSuperAdmin(adminId);
-        alert('Super admin deleted successfully!');
-      } catch (error) {
-        console.error('Failed to delete super admin:', error);
-      }
-    }
-  };
+  // const handleDeleteAdmin = async (adminId: string) => {
+  //   if (window.confirm('Are you sure you want to delete this super admin? This action cannot be undone.')) {
+  //     try {
+  //       // await systemService.deleteSuperAdmin(adminId);
+  //       alert('Super admin deleted successfully!');
+  //     } catch (error) {
+  //       console.error('Failed to delete super admin:', error);
+  //     }
+  //   }
+  // };
 
   const statusConfig = {
     active: { color: 'bg-green-100 text-green-800', icon: CheckCircle, label: 'Active' },
@@ -202,7 +202,7 @@ export const SuperAdminManagement: React.FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleDeleteAdmin(admin.id)}
+                    // onClick={() => handleDeleteAdmin(admin.id)}
                     className="text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -327,7 +327,7 @@ const CreateSuperAdminForm: React.FC<{ onClose: () => void }> = ({ onClose }) =>
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
-          placeholder="admin@vectorlab.in"
+          placeholder="admin@flashbillr.com"
         />
       </div>
 

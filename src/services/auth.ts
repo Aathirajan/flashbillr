@@ -24,8 +24,8 @@ export class AuthService {
   async login(email: string, password: string): Promise<LoginResponse> {
     const payload: LoginRequest = { email, password };
     
-    // Single login endpoint - backend determines role and redirects appropriately
-    const response = await apiClient.post<LoginResponse>('/auth/login', payload);
+    // Login endpoint - backend determines role and redirects appropriately
+    const response = await apiClient.post<LoginResponse>('/login', payload);
     
     if (response.accessToken) {
       apiClient.setToken(response.accessToken);
@@ -37,12 +37,12 @@ export class AuthService {
   }
 
   async signup(data: SignupRequest): Promise<User> {
-    return apiClient.post<User>('/auth/signup', data);
+    return apiClient.post<User>('/signup', data);
   }
 
   async logout(): Promise<void> {
     try {
-      await apiClient.post('/auth/logout');
+      await apiClient.post('/logout');
     } finally {
       apiClient.clearToken();
       localStorage.removeItem('refreshToken');
