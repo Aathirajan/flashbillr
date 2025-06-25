@@ -1,18 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../Common/Button';
 import { Card } from '../Common/Card';
-import { Package, Eye, EyeOff } from 'lucide-react';
+import { Package, Eye, EyeOff, Store } from 'lucide-react';
+import { storeAdminService } from '../../services/storeAdmin.service';
+import { USER_ROLES } from '../../config';
+
+interface LoginFormData {
+  email: string;
+  password: string;
+  storeId?: string;
+  role?: string;
+}
 
 export const LoginForm: React.FC = () => {
   const { login } = useAuth();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     email: '',
-    password: ''
+    password: '',
+    storeId: '',
+    role: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isStoreAdmin, setIsStoreAdmin] = useState(false);
+  const [showStoreIdField, setShowStoreIdField] = useState(false);
+  
+  // Check if the email suggests this is a store admin login
+  useEffect(() => {
+    const isAdminEmail = formData.email.endsWith('@flashbillr.com');
+    setShowStoreIdField(isAdminEmail);
+    
+    if (isAdminEmail) {
+      setIsStoreAdmin(true);
+      setFormData(prev => ({ ...prev, role: USER_ROLES.ADMIN }));
+    } else {
+      setIsStoreAdmin(false);
+      setFormData(prev => ({ ...prev, role: '', storeId: '' }));
+    }
+  }, [formData.email]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,9 +47,33 @@ export const LoginForm: React.FC = () => {
     setError('');
 
     try {
-      await login(formData.email, formData.password);
+      if (isStoreAdmin) {
+        // Use store admin login flow
+        const response = await storeAdminService.login({
+          email: formData.email,
+          password: formData.password,
+          storeId: formData.storeId
+        });
+        
+        // Store tokens
+        storeAdminService.storeTokens(
+          response.tokens.accessToken,
+          response.tokens.refreshToken
+        );
+        
+        // Update auth context
+        await login(formData.email, formData.password);
+      } else {
+        // Regular login flow
+        await login(formData.email, formData.password);
+      }
     } catch (err) {
-      setError('Invalid credentials. Please check your email and password.');
+      console.error('Login error:', err);
+      setError(
+        err instanceof Error 
+          ? err.message 
+          : 'Invalid credentials. Please check your email and password.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -97,7 +148,7 @@ export const LoginForm: React.FC = () => {
           <div className="mt-6 text-center text-sm text-gray-600">
             <p>Demo credentials:</p>
             <div className="space-y-1 mt-2">
-              <p><strong>Admin:</strong> admin@flashbillr.com | password</p>
+              <p><strong>Store Admin:</strong> admin@flashbillr.com | password | store-123</p>
               <p><strong>Super Admin:</strong> superadmin@flashbillr.com | password</p>
             </div>
           </div>
