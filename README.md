@@ -14,3 +14,5 @@ npm run build     # production build
 npm run preview
 npm run lint
 ```
+
+License: MIT
